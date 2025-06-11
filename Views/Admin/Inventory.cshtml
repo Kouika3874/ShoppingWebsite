@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Project14.Models.table_Product>
+@{
+    ViewBag.Title = "商品庫存";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="mt-4">📦 商品庫存</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-light">
+        <tr>
+            <th>商品名稱</th>
+            <th>價格</th>
+            <th>圖片</th>
+            <th>分類</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>$@item.Price</td>
+                <td>
+                    <img src="@Url.Content("~/Content/image/" + item.Image)" alt="@item.Name" style="width: 80px;" />
+                </td>
+                <td>@item.table_Category?.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

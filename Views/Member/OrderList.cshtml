@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Project14.ViewModels.OrderSummaryViewModel>
+
+@{
+    ViewBag.Title = "訂單列表";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+
+<h2 class="mt-4">📜 訂單列表</h2>
+
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>訂單編號</th>
+            <th>數量</th>
+            <th>金額</th>
+            <th>付款狀態</th>
+            <th>日期</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.OrderGuid</td>
+                <td>@item.TotalQuantity</td>
+                <td>@item.TotalAmount.ToString("C0")</td>
+                <td>@item.PaymentStatus</td>
+                <td>@item.Date.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    <a href="@Url.Action("OrderDetail", "Member", new { guid = item.OrderGuid })" class="btn btn-sm btn-info">明細</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

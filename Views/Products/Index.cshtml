@@ -1,0 +1,87 @@
+@model IEnumerable<Project14.ViewModels.ProductListItemViewModel>
+
+@{
+    ViewBag.Title = "商品瀏覽";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+
+<h2 class="text-center mt-4 mb-4">🛒 商品瀏覽</h2>
+
+<!-- Toast 提示 -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+    <div id="cartToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+        <div class="d-flex">
+            <div class="toast-body"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-6 col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="@Url.Content("~/Content/image/" + item.Image)"
+                     alt="@item.Name"
+                     class="card-img-top"
+                     style="height:270px; object-fit:cover;" />
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title prod-name">@item.Name</h5>
+                        <p class="card-text text-muted">單價：$@item.Price</p>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <label for="qty-@item.ProductId" class="me-2 mb-0">數量</label>
+                        <input type="number" min="1" value="1" class="form-control quantity-input" id="qty-@item.ProductId" data-productid="@item.ProductId" style="width: 80px;" />
+                    </div>
+                    <button class="btn btn-primary btn-block mt-1 add-to-cart-btn"
+                            data-productid="@item.ProductId">
+                        <i class="bi bi-cart-plus"></i> 加入購物車
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script>
+        function showToast(message, isError = false) {
+            var toast = new bootstrap.Toast($('#cartToast')[0]);
+            const $toast = $('#cartToast');
+            const $body = $toast.find('.toast-body');
+
+            $toast.removeClass('bg-success bg-danger')
+                .addClass(isError ? 'bg-danger' : 'bg-success');
+            $body.text(message);
+            toast.show();
+        }
+
+        $(function () {
+            $('.add-to-cart-btn').click(function () {
+                const productId = $(this).data('productid');
+                const qtyInput = $('#qty-' + productId);
+                const quantity = parseInt(qtyInput.val()) || 1;
+                var prodname = $(this).parent().find(".prod-name").text().trim();
+                var successString = prodname + ' 已加入購物車！';
+
+                $.ajax({
+                    url: '/Member/AddCarAjax',
+                    type: 'POST',
+                    data: { productId: productId, quantity: quantity },
+                    success: function (response) {
+                        if (response.success) {
+                            showToast(successString);
+                        } else {
+                            showToast(response.message || '加入失敗', true);
+                        }
+                    },
+                    error: function () {
+                        showToast('加入購物車失敗，請稍後再試。', true);
+                    }
+                });
+            });
+        });
+    </script>
+}

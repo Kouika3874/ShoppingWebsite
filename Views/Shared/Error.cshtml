@@ -1,0 +1,15 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "發生錯誤";
+}
+
+<div class="container mt-5">
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">🚨 錯誤訊息</h4>
+        <p>很抱歉，發生了預期外的錯誤。</p>
+        <hr />
+        <p class="mb-0">
+            請返回 <a href="@Url.Action("Index", "Home")" class="alert-link">首頁</a> 或聯絡網站管理員。
+        </p>
+    </div>
+</div>

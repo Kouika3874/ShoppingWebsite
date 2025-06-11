@@ -1,0 +1,40 @@
+﻿@model Project14.Models.table_Product
+@{
+    ViewBag.Title = "新增商品";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="mt-4">➕ 新增商品</h2>
+
+@using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Price)
+        @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Price)
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Image)
+        @Html.TextBoxFor(m => m.Image, new { @class = "form-control" })
+        <div class="form-text">請輸入圖片檔名（如：nintendo_switch.jpg）</div>
+        @Html.ValidationMessageFor(m => m.Image)
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.CategoryId, "分類")
+        @Html.DropDownList("CategoryId", (SelectList)ViewBag.CategoryList, "請選擇分類", new { @class = "form-select" })
+        @Html.ValidationMessage("CategoryId")
+    </div>
+
+    <button type="submit" class="btn btn-success">新增</button>
+    <a href="@Url.Action("ProductList", "Admin")" class="btn btn-secondary">取消</a>
+}

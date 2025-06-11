@@ -1,0 +1,28 @@
+﻿<h2>會員中心</h2>
+
+<div class="card p-4">
+    <h4>您好，@ViewBag.MemberName</h4>
+
+    <p>歡迎來到會員專區，您可以透過下列功能管理帳戶與訂單：</p>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            @Html.ActionLink("🔒 修改密碼", "ChangePassword", "Member")
+        </li>
+        <li class="list-group-item">
+            @Html.ActionLink("👤 個人資料", "MemberProfile", "Member")
+        </li>
+        <li class="list-group-item">
+            @Html.ActionLink("🛒 我的購物車", "ShoppingCar", "Member")
+        </li>
+        <li class="list-group-item">
+            @Html.ActionLink("📦 我的訂單", "OrderList", "Member")
+        </li>
+        <li class="list-group-item">
+            @Html.ActionLink("🚪 登出", "Logout", "Member")
+        </li>
+        <li class="list-group-item">
+            @Html.ActionLink("🏠 回到商品頁", "Index", "Product")
+        </li>
+    </ul>
+</div>

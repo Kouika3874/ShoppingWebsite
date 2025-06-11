@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2d515a02223944cea48e07902940a5ea" Name="Diagram1">
+        <EntityTypeShape EntityType="PChouseDBModel.table_Admin" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PChouseDBModel.table_Category" Width="1.5" PointX="1.5" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PChouseDBModel.table_Member" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PChouseDBModel.table_Order" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PChouseDBModel.table_OrderDetail" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PChouseDBModel.table_PaymentLog" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PChouseDBModel.table_Product" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PChouseDBModel.table_ShipmentLog" Width="1.5" PointX="5.25" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PChouseDBModel.table_ShoppingCart" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <AssociationConnector Association="PChouseDBModel.FK__table_Pro__Categ__2A4B4B5E" ManuallyRouted="false" />
+        <AssociationConnector Association="PChouseDBModel.FK__table_Ord__Membe__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="PChouseDBModel.FK__table_Sho__Membe__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="PChouseDBModel.FK__table_Ord__Order__36B12243" ManuallyRouted="false" />
+        <AssociationConnector Association="PChouseDBModel.FK__table_Pay__Order__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="PChouseDBModel.FK__table_Shi__Order__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="PChouseDBModel.FK__table_Ord__Produ__37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="PChouseDBModel.FK__table_Sho__Produ__2E1BDC42" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

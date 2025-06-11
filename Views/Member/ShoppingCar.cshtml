@@ -1,0 +1,135 @@
+﻿@model IEnumerable<Project14.ViewModels.ShoppingCartItemViewModel>
+
+@{
+    ViewBag.Title = "會員購物車清單";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+
+<h2 class="mt-4">🛒 會員購物車清單</h2>
+<form method="get" class="mb-3">
+    <label for="sortBy" class="form-label">排序方式：</label>
+    <select id="sortBy" name="sortBy" class="form-select w-auto d-inline-block" onchange="this.form.submit()">
+        <option value="default" @(Request["sortBy"] == "default" ? "selected" : "")>加入順序</option>
+        <option value="name" @(Request["sortBy"] == "name" ? "selected" : "")>商品名稱</option>
+        <option value="price" @(Request["sortBy"] == "price" ? "selected" : "")>價格（高→低）</option>
+    </select>
+</form>
+
+<!-- Toast 提示 -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+    <div id="cartToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+        <div class="d-flex">
+            <div class="toast-body"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-hover mt-3">
+    <thead class="table-light">
+        <tr>
+            <th>訂單編號</th>
+            <th>商品編號</th>
+            <th>商品名稱</th>
+            <th>價格</th>
+            <th>數量</th>
+            <th>是否確認</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.OrderGuid</td>
+                <td>@item.ProductId</td>
+                <td>@item.Name</td>
+                <td>@item.Price.ToString("C0")</td>
+                <td>
+                    <input type="number"
+                           class="form-control quantity-input"
+                           value="@item.Quantity"
+                           data-id="@item.Id"
+                           min="1" />
+                </td>
+                <td>@(item.IsApproved ? "✅" : "❌")</td>
+                <td>
+                    <button class="btn btn-sm btn-danger delete-btn" data-id="@item.Id">刪除</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h4 class="mb-3">📦 填寫訂單收件人資料</h4>
+
+@using (Html.BeginForm("ShoppingCar", "Member", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label for="Receiver" class="form-label">收件人姓名</label>
+        <input type="text" id="Receiver" name="Receiver" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label for="Email" class="form-label">收件人信箱</label>
+        <input type="email" id="Email" name="Email" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label for="Address" class="form-label">收件人地址</label>
+        <input type="text" id="Address" name="Address" required class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">✅ 送出訂單</button>
+}
+
+@section scripts {
+    <script>
+        function showToast(message, isError = false) {
+            var toast = new bootstrap.Toast($('#cartToast')[0]);
+            const $toast = $('#cartToast');
+            const $body = $toast.find('.toast-body');
+
+            $toast.removeClass('bg-success bg-danger')
+                .addClass(isError ? 'bg-danger' : 'bg-success');
+            $body.text(message);
+            toast.show();
+        }
+
+        $(document).ready(function () {
+            // 數量變更即時更新
+            $('.quantity-input').change(function () {
+                const id = $(this).data('id');
+                const quantity = $(this).val();
+
+                $.post('/Member/UpdateCartQuantity', { id: id, quantity: quantity }, function (res) {
+                    if (res.success) {
+                        showToast("✅ 數量已更新");
+                    } else {
+                        showToast("❌ 更新失敗：" + res.message, true);
+                    }
+                });
+            });
+
+            // 即時刪除
+            $(document).on('click', '.delete-btn', function () {
+                if (!confirm("確定刪除這個商品嗎？")) return;
+                const id = $(this).data('id');
+                const row = $(this).closest('tr');
+
+                $.post('/Member/DeleteCarAjax', { id: id }, function (res) {
+                    if (res.success) {
+                        row.fadeOut(function () { $(this).remove(); });
+                        showToast("🗑️ 商品已刪除");
+                    } else {
+                        showToast("❌ 刪除失敗", true);
+                    }
+                });
+            });
+        });
+    </script>
+}

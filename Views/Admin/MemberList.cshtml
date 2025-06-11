@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Project14.ViewModels.MemberViewModel>
+@{
+    ViewBag.Title = "會員管理";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="mt-4">👤 會員清單</h2>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>帳號</th>
+            <th>姓名</th>
+            <th>Email</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.UserId</td>
+                <td>@m.Name</td>
+                <td>@m.Email</td>
+                <td>
+                    <a href="@Url.Action("MemberOrders", "Admin", new { userId = m.UserId })" class="btn btn-sm btn-outline-primary">查看訂單</a>
+                    <a href="@Url.Action("DeleteMember", "Admin", new { userId = m.UserId })" class="btn btn-sm btn-outline-danger" onclick="return confirm('確定要刪除 @m.UserId 嗎？')">刪除</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

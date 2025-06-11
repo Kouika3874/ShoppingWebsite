@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "後台首頁";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="mt-4">🛠 後台管理首頁</h2>
+
+<p class="lead">歡迎使用 PChouse 後台管理系統。</p>
+
+<ul class="list-group mt-4">
+    <li class="list-group-item">
+        <a href="@Url.Action("ProductList", "Admin")">
+            <i class="bi bi-box-seam"></i> 商品管理
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a href="@Url.Action("OrderList", "Admin")">
+            <i class="bi bi-receipt"></i> 訂單管理
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a href="@Url.Action("Inventory", "Admin")">
+            <i class="bi bi-clipboard-data"></i> 商品庫存
+        </a>
+    </li>
+</ul>

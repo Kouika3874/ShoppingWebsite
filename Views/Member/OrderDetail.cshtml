@@ -1,0 +1,56 @@
+﻿@model Project14.ViewModels.OrderDetailViewModel
+
+<h2>🧾 訂單明細</h2>
+
+<p><strong>訂單編號：</strong> @Model.OrderGuid</p>
+<p><strong>下單日期：</strong> @(Model.Date.HasValue ? Model.Date.Value.ToString("yyyy-MM-dd HH:mm") : "")</p>
+<p><strong>收件人：</strong> @Model.Receiver</p>
+<p><strong>Email：</strong> @Model.Email</p>
+<p><strong>地址：</strong> @Model.Address</p>
+
+@if (!Model.IsPaid)
+{
+    <div class="mb-3">
+        <a href="@Url.Action("Pay", "Member", new { guid = Model.OrderGuid })" class="btn btn-success me-2">💰 立即付款</a>
+        <a href="@Url.Action("CancelOrder", "Member", new { guid = Model.OrderGuid })"
+           class="btn btn-danger"
+           onclick="return confirm('確定要取消此訂單嗎？');">🗑️ 取消訂單</a>
+    </div>
+}
+
+<table class="table table-bordered mt-4">
+    <thead class="table-light">
+        <tr>
+            <th>商品圖片</th>
+            <th>商品編號</th>
+            <th>商品名稱</th>
+            <th>單價</th>
+            <th>數量</th>
+            <th>小計</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    <img src="@Url.Content("~/Content/image/" + (item.Image ?? "default.jpg"))"
+                         width="60" class="rounded shadow-sm" />
+                </td>
+                <td>@item.ProductId</td>
+                <td>@item.Name</td>
+                <td>@item.Price.ToString("C0")</td>
+                <td>@item.Quantity</td>
+                <td>@((item.Price * item.Quantity).ToString("C0"))</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" class="text-end fw-bold">總金額：</td>
+            <td class="fw-bold">@Model.Total.ToString("C0")</td>
+        </tr>
+    </tfoot>
+</table>
+
+<a href="@Url.Action("OrderList", "Member")" class="btn btn-secondary">← 回訂單列表</a>

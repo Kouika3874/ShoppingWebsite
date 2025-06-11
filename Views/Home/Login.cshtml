@@ -1,0 +1,46 @@
+﻿@model Project14.ViewModels.LoginViewModel
+
+@{
+    ViewBag.Title = "登入";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>會員登入</h2>
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserId)
+        @Html.TextBoxFor(m => m.UserId, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.UserId)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Captcha)
+        <div class="d-flex align-items-center">
+            @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control me-2" })
+            <img src="@Url.Action("Captcha", "Member")" alt="驗證碼" style="height: 30px;" />
+        </div>
+        @Html.ValidationMessageFor(m => m.Captcha)
+    </div>
+
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
+        @Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">登入</button>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Message as string))
+{
+    <div class="alert alert-danger mt-3">@ViewBag.Message</div>
+}
